@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using EventManagment.Domain.Enums;
 
 namespace EventManagment.Domain.Events;
-public class Event : AuditableEntity
+public class Event : AuditableEntity, IAggregateRoot
 {
     public string EventName { get; set; } = default!;
     public DateTime StartingDate { get; set; }
