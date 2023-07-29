@@ -1,4 +1,5 @@
-﻿using EventManagment.Application.DTOs;
+﻿using EventManagment.Application.Catalog.Products;
+using EventManagment.Application.DTOs;
 using EventManagment.Application.Participants;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,5 +15,14 @@ public class ParticipantsController : VersionNeutralApiController
     public async Task<PaginationResponse<ParticipantDto>> GetListAsync(Guid eventId)
     {
         return await Mediator.Send(new GetParticipantsByEventRequest(eventId));
+    }
+
+
+    [HttpPost]
+    [MustHavePermission(FSHAction.Create, FSHResource.Products)]
+    [OpenApiOperation("Create a new Partici[ant.", "")]
+    public Task<Guid> CreateAsync(CreateParticipantRequest request)
+    {
+        return Mediator.Send(request);
     }
 }

@@ -21,4 +21,23 @@ public class Participant : AuditableEntity, IAggregateRoot
     public string EventRegistrationNumber { get; set; } = default!;
     public bool CheckedIn { get; set; }
     public DateTime? CheckInDate { get; set; }
+
+    public Participant(DefaultIdType eventId, string? memberNumber, ParticipantType participantType, string firstName, string lastName, string? tiltle, string? email, string? phoneNumber, string gender, string address, string? additionalInformation, string eventRegistrationNumber, bool checkedIn, DateTime? checkInDate)
+    {
+        EventId = eventId;
+        MemberNumber = memberNumber;
+        ParticipantType = participantType;
+        FirstName = firstName;
+        LastName = lastName;
+        Tiltle = tiltle;
+        Email = email;
+        PhoneNumber = phoneNumber;
+        Gender = gender;
+        Address = address;
+        AdditionalInformation = additionalInformation;
+        EventRegistrationNumber = eventRegistrationNumber;
+        CheckedIn = checkedIn;
+        CheckInDate = checkInDate;
+    }
+
 }
