@@ -11,6 +11,7 @@ public class Comment : AuditableEntity, IAggregateRoot
     {
         EventId = eventId;
         Text = text;
+        IsActive = true;
     }
 
     public Comment Update(string text)

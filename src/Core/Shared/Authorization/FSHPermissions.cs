@@ -28,6 +28,7 @@ public static class FSHResource
     public const string Brands = nameof(Brands);
     public const string Participants = nameof(Participants);
     public const string Events = nameof(Events);
+    public const string Comments = nameof(Comments);
 }
 
 public static class FSHPermissions
@@ -74,6 +75,12 @@ public static class FSHPermissions
         new("Update Tenants", FSHAction.Update, FSHResource.Tenants, IsRoot: true),
         new("Upgrade Tenant Subscription", FSHAction.UpgradeSubscription, FSHResource.Tenants, IsRoot: true),
         new("Participants", FSHAction.View, FSHResource.Participants, IsBasic: true),
+        new("View Comments", FSHAction.View, FSHResource.Comments, IsBasic: true),
+        new("Search Comments", FSHAction.Search, FSHResource.Comments, IsBasic: true),
+        new("Create Comments", FSHAction.Create, FSHResource.Comments),
+        new("Update Comments", FSHAction.Update, FSHResource.Comments),
+        new("Delete Comments", FSHAction.Delete, FSHResource.Comments),
+        new("Export Comments", FSHAction.Export, FSHResource.Comments),
     };
 
     public static IReadOnlyList<FSHPermission> All { get; } = new ReadOnlyCollection<FSHPermission>(_all);

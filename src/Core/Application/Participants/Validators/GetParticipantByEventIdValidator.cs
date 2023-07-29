@@ -7,17 +7,6 @@ public class GetParticipantByEventIdValidator : CustomValidator<GetParticipantBy
 {
     public GetParticipantByEventIdValidator(IReadRepository<Participant> participantRepo, IReadRepository<Event> brandRepo, IStringLocalizer<CreateProductRequestValidator> T)
     {
-        RuleFor(p => p.Name)
-            .NotEmpty()
-            .MaximumLength(75)
-            .MustAsync(async (name, ct) => await productRepo.FirstOrDefaultAsync(new GetParticipantByEventIdSpec(name), ct) is null)
-                .WithMessage((_, name) => T["Product {0} already Exists.", name]);
-
-        RuleFor(p => p.Rate)
-            .GreaterThanOrEqualTo(1);
-
-        RuleFor(p => p.Image);
-
         RuleFor(p => p.ParticipantId)
             .NotEmpty()
             .MustAsync(async (id, ct) => await participantRepo.GetByIdAsync(id, ct) is not null)

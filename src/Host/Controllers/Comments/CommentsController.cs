@@ -9,7 +9,7 @@ namespace EventManagment.Host.Controllers.Comments;
 public class CommentsController : VersionedApiController
 {
     [HttpPost]
-    [MustHavePermission(FSHAction.Create, FSHResource.Products)]
+    [MustHavePermission(FSHAction.Create, FSHResource.Comments)]
     [OpenApiOperation("Add New Comment.", "")]
     public Task<Guid> CreateAsync(CreateCommentRequest request)
     {
