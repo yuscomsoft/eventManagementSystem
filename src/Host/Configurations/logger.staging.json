@@ -1,0 +1,7 @@
+{
+  "LoggerSettings": {
+    "AppName": "EventManagment",
+    "WriteToFile": false,
+    "StructuredConsoleLogging": true
+  }
+}

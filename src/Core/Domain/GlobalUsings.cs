@@ -1,0 +1,1 @@
+﻿global using EventManagment.Domain.Common.Contracts;

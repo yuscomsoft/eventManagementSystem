@@ -1,0 +1,17 @@
+global using Ardalis.Specification;
+global using FluentValidation;
+global using EventManagment.Application.Common.Events;
+global using EventManagment.Application.Common.Exceptions;
+global using EventManagment.Application.Common.FileStorage;
+global using EventManagment.Application.Common.Interfaces;
+global using EventManagment.Application.Common.Models;
+global using EventManagment.Application.Common.Persistence;
+global using EventManagment.Application.Common.Specification;
+global using EventManagment.Application.Common.Validation;
+global using EventManagment.Domain.Catalog;
+global using EventManagment.Domain.Common;
+global using EventManagment.Domain.Common.Contracts;
+global using EventManagment.Shared.Notifications;
+global using MediatR;
+global using Microsoft.Extensions.Localization;
+global using Microsoft.Extensions.Logging;
