@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace EventManagment.Domain.Events;
-public class Participant : AuditableEntity
+public class Participant : AuditableEntity, IAggregateRoot
 {
     public Guid EventId { get; set; }
     public string? MemberNumber { get; set; }
@@ -15,6 +15,8 @@ public class Participant : AuditableEntity
     public string? Tiltle { get; set; }
     public string? Email { get; set; }
     public string? PhoneNumber { get; set; }
+    public int? JamaatId { get; set; }
+    public int? CircuitId { get; set; }
     public string Gender { get; set; } = default!;
     public string Address { get; set; } = default!;
     public string? AdditionalInformation { get; set; }

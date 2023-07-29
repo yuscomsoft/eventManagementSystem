@@ -26,6 +26,8 @@ public static class FSHResource
     public const string RoleClaims = nameof(RoleClaims);
     public const string Products = nameof(Products);
     public const string Brands = nameof(Brands);
+    public const string Participants = nameof(Participants);
+    public const string Events = nameof(Events);
 }
 
 public static class FSHPermissions
@@ -54,6 +56,12 @@ public static class FSHPermissions
         new("Update Products", FSHAction.Update, FSHResource.Products),
         new("Delete Products", FSHAction.Delete, FSHResource.Products),
         new("Export Products", FSHAction.Export, FSHResource.Products),
+        new("View Events", FSHAction.View, FSHResource.Events, IsBasic: true),
+        new("Search Events", FSHAction.Search, FSHResource.Events, IsBasic: true),
+        new("Create Events", FSHAction.Create, FSHResource.Events),
+        new("Update Events", FSHAction.Update, FSHResource.Events),
+        new("Delete Events", FSHAction.Delete, FSHResource.Events),
+        new("Export Events", FSHAction.Export, FSHResource.Events),
         new("View Brands", FSHAction.View, FSHResource.Brands, IsBasic: true),
         new("Search Brands", FSHAction.Search, FSHResource.Brands, IsBasic: true),
         new("Create Brands", FSHAction.Create, FSHResource.Brands),
@@ -64,7 +72,8 @@ public static class FSHPermissions
         new("View Tenants", FSHAction.View, FSHResource.Tenants, IsRoot: true),
         new("Create Tenants", FSHAction.Create, FSHResource.Tenants, IsRoot: true),
         new("Update Tenants", FSHAction.Update, FSHResource.Tenants, IsRoot: true),
-        new("Upgrade Tenant Subscription", FSHAction.UpgradeSubscription, FSHResource.Tenants, IsRoot: true)
+        new("Upgrade Tenant Subscription", FSHAction.UpgradeSubscription, FSHResource.Tenants, IsRoot: true),
+        new("Participants", FSHAction.View, FSHResource.Participants, IsBasic: true),
     };
 
     public static IReadOnlyList<FSHPermission> All { get; } = new ReadOnlyCollection<FSHPermission>(_all);
