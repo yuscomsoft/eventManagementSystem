@@ -10,7 +10,7 @@ public class Event : AuditableEntity, IAggregateRoot
     public int EventYear { get; set; }
     public string Location { get; set; } = default!;
     public EventStatus Status { get; set; }
-    public EventSettings EventSettings { get; set; }
+    public virtual EventSettings EventSettings { get; set; }
     public ICollection<Participant> Participants { get; set; } = new HashSet<Participant>();
     public ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
 
@@ -51,7 +51,8 @@ public class Event : AuditableEntity, IAggregateRoot
             RegistrationStartDate = checkedInStartDate,
             DataSource = dataSource,
             CheckInStartDate = checkedInStartDate,
-            IsPrivate = isPrivate
+            IsPrivate = isPrivate,
+            IsRegistrationActive = registrationStartingDate.Equals(DateTime.UtcNow) ? true : false,
         };
 
     }

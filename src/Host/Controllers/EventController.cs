@@ -14,4 +14,12 @@ public class EventController : VersionedApiController
     {
         return Mediator.Send(request);
     }
+
+    [HttpGet("{id:guid}")]
+    [MustHavePermission(FSHAction.View, FSHResource.Events)]
+    [OpenApiOperation("Get event details.", "")]
+    public Task<EventDetailsDto> GetAsync(Guid id)
+    {
+        return Mediator.Send(new GetEventRequest(id));
+    }
 }
