@@ -11,7 +11,6 @@ public class MembersController : VersionNeutralApiController
     public MembersController(IWebHostEnvironment webHostEnvironment, IMemberService memberService) => (_webHostEnvironment, _memberService) = (webHostEnvironment, memberService);
 
     [HttpPost]
-
     // [MustHavePermission(FSHAction.View, FSHResource.Users)]
     [OpenApiOperation("Get list of all members.", "")]
     public async Task<PaginationResponse<MemberDetailsDto>> GetListAsync(PaginationFilter filter)
@@ -19,7 +18,4 @@ public class MembersController : VersionNeutralApiController
         var response = await _memberService.GetListAsync(filter);
         return response;
     }
-
-
-
 }
