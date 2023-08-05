@@ -21,7 +21,7 @@ namespace EventManagment.Application.Comments
         private readonly IStringLocalizer _t;
         private readonly IFileStorageService _file;
 
-        public UpdateCommentRequestHandler(IRepository<Comment> repository, IStringLocalizer<UpdateProductRequestHandler> localizer, IFileStorageService file) =>
+        public UpdateCommentRequestHandler(IRepository<Comment> repository, IStringLocalizer<UpdateCommentRequestHandler> localizer, IFileStorageService file) =>
             (_repository, _t, _file) = (repository, localizer, file);
 
         public async Task<Guid> Handle(UpdateCommentRequest request, CancellationToken cancellationToken)

@@ -29,6 +29,7 @@ public static class FSHResource
     public const string Participants = nameof(Participants);
     public const string Events = nameof(Events);
     public const string Comments = nameof(Comments);
+    public const string CommentsResponces = nameof(CommentsResponces);
 }
 
 public static class FSHPermissions
@@ -81,6 +82,11 @@ public static class FSHPermissions
         new("Update Comments", FSHAction.Update, FSHResource.Comments),
         new("Delete Comments", FSHAction.Delete, FSHResource.Comments),
         new("Export Comments", FSHAction.Export, FSHResource.Comments),
+        new("Search Products", FSHAction.Search, FSHResource.CommentsResponces, IsBasic: true),
+        new("Create Products", FSHAction.Create, FSHResource.CommentsResponces),
+        new("Update Products", FSHAction.Update, FSHResource.CommentsResponces),
+        new("Delete Products", FSHAction.Delete, FSHResource.CommentsResponces),
+        new("Export Products", FSHAction.Export, FSHResource.CommentsResponces),
     };
 
     public static IReadOnlyList<FSHPermission> All { get; } = new ReadOnlyCollection<FSHPermission>(_all);

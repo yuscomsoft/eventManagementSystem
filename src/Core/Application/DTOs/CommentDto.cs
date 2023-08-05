@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace EventManagment.Application.DTOs;
-internal class CommentDto
+public class CommentDto : IDto
 {
+    public string Text { get; set; }
+
 }
