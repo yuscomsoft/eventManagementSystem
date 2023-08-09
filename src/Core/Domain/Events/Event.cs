@@ -16,43 +16,37 @@ public class Event : AuditableEntity, IAggregateRoot
 
     public Event(string eventName, DateTime startingDate, DateTime endingDate, int eventYear, string location, string? imagePath)
     {
-        this.EventName = eventName;
-        this.StartingDate = startingDate;
-        this.EndingDate = endingDate;
-        this.EventYear = eventYear;
-        this.ImagePath = imagePath;
-        this.Location = location;
-        this.Status = EventStatus.Upcoming;
+        EventName = eventName;
+        StartingDate = startingDate;
+        EndingDate = endingDate;
+        EventYear = eventYear;
+        ImagePath = imagePath;
+        Location = location;
+        Status = EventStatus.Upcoming;
     }
-    public EventSettings AddEventSettings(Event even, EventType eventType, DateTime? registrationStartingDate, DateTime? registrationEndDate, DateTime? checkedInStartDate, string dataSource, bool isPrivate)
+
+    public EventSettings AddEventSettings(DefaultIdType eventId, string? eventQrCode, string? shortLink, EventType eventType, bool isRegistrationActive, DateTime? registrationStartDate, DateTime? registrationEndDate, DateTime? checkInStartDate, string dataSource, bool isPrivate)
     {
-        if(registrationStartingDate > even.CreatedOn)
-        {
-            throw new ArgumentException("The starting date for Registration cannot be greter than the date event is created ");
-        }
-        if(registrationEndDate > even.StartingDate)
-        {
-            throw new ArgumentException("the registration starting must not be greater than event starting date");
-        }
-        if(registrationStartingDate > registrationEndDate)
+        //if (registrationStartDate > @event.CreatedOn)
+        //{
+        //    throw new ArgumentException("The starting date for Registration cannot be greter than the date event is created ");
+        //}
+
+        //if (registrationEndDate > @event.StartingDate)
+        //{
+        //    throw new ArgumentException("the registration starting must not be greater than event starting date");
+        //}
+
+        if (registrationStartDate > registrationEndDate)
         {
             throw new ArgumentException("the registration starting must not be greater than registration ending date");
         }
-        if(registrationEndDate > even.EndingDate)
-        {
-            throw new ArgumentException("the registration ending date must not be greater than event ending date");
-        }
-        return new EventSettings
-        {
-            EventId = even.Id,
-            Event = even,
-            EventType = eventType,
-            RegistrationEndDate = registrationEndDate,
-            RegistrationStartDate = checkedInStartDate,
-            DataSource = dataSource,
-            CheckInStartDate = checkedInStartDate,
-            IsPrivate = isPrivate
-        };
 
+        //if (registrationEndDate > @event.EndingDate)
+        //{
+        //    throw new ArgumentException("the registration ending date must not be greater than event ending date");
+        //}
+
+        return new EventSettings(eventId, eventQrCode, shortLink, eventType, isRegistrationActive, registrationStartDate, registrationEndDate, checkInStartDate, dataSource, isPrivate);
     }
 }
