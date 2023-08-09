@@ -23,11 +23,10 @@ public class CreateEventRequest : IRequest<Guid>
 public class CreateEventRequestHandler : IRequestHandler<CreateEventRequest, Guid>
 {
     private readonly IRepository<Event> _repository;
-    private readonly IRepository<EventSettings> _eventSettingRepository;
     private readonly IFileStorageService _file;
 
-    public CreateEventRequestHandler(IRepository<Event> repository, IRepository<EventSettings> eventSettingRepository, IFileStorageService file) =>
-        (_repository, _file, _eventSettingRepository) = (repository, file, eventSettingRepository);
+    public CreateEventRequestHandler(IRepository<Event> repository, IFileStorageService file) =>
+        (_repository, _file) = (repository, file);
 
     public async Task<Guid> Handle(CreateEventRequest request, CancellationToken cancellationToken)
     {
