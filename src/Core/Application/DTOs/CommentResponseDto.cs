@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EventManagment.Application.CommentResponses
+namespace EventManagment.Application.DTOs;
+public class CommentResponseDto : IDto
 {
-    internal class GetAllCommentResponses
-    {
-    }
+    public string Response { get; set; }
 }

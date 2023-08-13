@@ -11,7 +11,7 @@ public class CommentsController : VersionedApiController
 {
     [HttpPost]
     [MustHavePermission(FSHAction.Create, FSHResource.Comments)]
-    [OpenApiOperation("Add New Comment.", "")]
+    [OpenApiOperation("Add A Comment.", "")]
     public Task<Guid> CreateAsync(CreateCommentRequest request)
     {
         return Mediator.Send(request);
