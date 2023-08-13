@@ -41,7 +41,18 @@ public class Event : AuditableEntity, IAggregateRoot
         {
             throw new ArgumentException("the registration starting must not be greater than registration ending date");
         }
-
+        return new EventSettings
+        {
+            EventId = even.Id,
+            Event = even,
+            EventType = eventType,
+            RegistrationEndDate = registrationEndDate,
+            RegistrationStartDate = checkedInStartDate,
+            DataSource = dataSource,
+            CheckInStartDate = checkedInStartDate,
+            IsPrivate = isPrivate,
+            IsRegistrationActive = registrationStartingDate.Equals(DateTime.UtcNow) ? true : false,
+        };
         //if (registrationEndDate > @event.EndingDate)
         //{
         //    throw new ArgumentException("the registration ending date must not be greater than event ending date");

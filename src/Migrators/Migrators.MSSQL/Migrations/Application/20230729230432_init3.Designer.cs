@@ -4,6 +4,7 @@ using EventManagment.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Migrators.MSSQL.Migrations.Application
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230729230432_init3")]
+    partial class init3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -245,6 +248,9 @@ namespace Migrators.MSSQL.Migrations.Application
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<Guid?>("EventSettingsId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("EventYear")
                         .HasColumnType("int");
 
@@ -277,6 +283,10 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.HasIndex("EventName")
                         .IsUnique();
 
+                    b.HasIndex("EventSettingsId")
+                        .IsUnique()
+                        .HasFilter("[EventSettingsId] IS NOT NULL");
+
                     b.ToTable("Events", "Event");
 
                     b.HasAnnotation("Finbuckle:MultiTenant", true);
@@ -306,12 +316,6 @@ namespace Migrators.MSSQL.Migrations.Application
 
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<Guid>("EventId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("EventQrCode")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("EventType")
                         .HasColumnType("int");
@@ -346,9 +350,6 @@ namespace Migrators.MSSQL.Migrations.Application
                         .HasColumnType("nvarchar(64)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EventId")
-                        .IsUnique();
 
                     b.ToTable("EventSettings", "Event");
 
@@ -395,6 +396,10 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.Property<Guid>("EventId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("EventRegistrationNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -429,17 +434,6 @@ namespace Migrators.MSSQL.Migrations.Application
                         .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
-
-                    b.Property<string>("TickectReferenceNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TicketDownloadLink")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TicketQrCode")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Tiltle")
                         .HasColumnType("nvarchar(max)");
@@ -811,15 +805,13 @@ namespace Migrators.MSSQL.Migrations.Application
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("EventManagment.Domain.Events.EventSettings", b =>
+            modelBuilder.Entity("EventManagment.Domain.Events.Event", b =>
                 {
-                    b.HasOne("EventManagment.Domain.Events.Event", "Event")
-                        .WithOne("EventSettings")
-                        .HasForeignKey("EventManagment.Domain.Events.EventSettings", "EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("EventManagment.Domain.Events.EventSettings", "EventSettings")
+                        .WithOne("Event")
+                        .HasForeignKey("EventManagment.Domain.Events.Event", "EventSettingsId");
 
-                    b.Navigation("Event");
+                    b.Navigation("EventSettings");
                 });
 
             modelBuilder.Entity("EventManagment.Domain.Events.Participant", b =>
@@ -891,10 +883,13 @@ namespace Migrators.MSSQL.Migrations.Application
                 {
                     b.Navigation("Comments");
 
-                    b.Navigation("EventSettings")
-                        .IsRequired();
-
                     b.Navigation("Participants");
+                });
+
+            modelBuilder.Entity("EventManagment.Domain.Events.EventSettings", b =>
+                {
+                    b.Navigation("Event")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
