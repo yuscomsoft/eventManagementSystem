@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace EventManagment.Application.Participants.Validators;
 public class ParticipantsByEventValidator : CustomValidator<GetParticipantsByEventRequest>
 {
-    public ParticipantsByEventValidator(IReadRepository<Event> eventRepo,  IStringLocalizer<CreateProductRequestValidator> T)
+    public ParticipantsByEventValidator(IReadRepository<Event> eventRepo,  IStringLocalizer<CreateParticipantRequestValidator> T)
     {
         RuleFor(p => p.EventId)
             .NotEmpty()

@@ -5,7 +5,7 @@ using EventManagment.Domain.Events;
 namespace EventManagment.Application.Participants.Validators;
 public class GetParticipantByEventIdValidator : CustomValidator<GetParticipantByEventIdRequest>
 {
-    public GetParticipantByEventIdValidator(IReadRepository<Participant> participantRepo, IReadRepository<Event> brandRepo, IStringLocalizer<CreateProductRequestValidator> T)
+    public GetParticipantByEventIdValidator(IReadRepository<Participant> participantRepo, IReadRepository<Event> brandRepo, IStringLocalizer<CreateParticipantRequestValidator> T)
     {
         RuleFor(p => p.ParticipantId)
             .NotEmpty()

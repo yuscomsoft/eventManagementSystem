@@ -10,6 +10,7 @@ public class Participant : AuditableEntity, IAggregateRoot
 {
     public Guid EventId { get; set; }
     public string? MemberNumber { get; private set; }
+    public string RegistrationNumber { get; private set; } = default!;
     public ParticipantType ParticipantType { get; private set; }
     public string FirstName { get; private set; } = default!;
     public string LastName { get; private set; } = default!;
@@ -21,9 +22,10 @@ public class Participant : AuditableEntity, IAggregateRoot
     public string Gender { get; private set; } = default!;
     public string Address { get; private set; } = default!;
     public string? AdditionalInformation { get; private set; }
-    public string TickectReferenceNumber { get; private set; } = default!;
     public string? TicketQrCode { get; private set; }
     public string TicketDownloadLink { get; private set; } = default!;
     public bool CheckedIn { get; private set; }
     public DateTime? CheckInDate { get; private set; }
+
+    // TODO: ADD DOMAIN CONSTRUCTOR TO CREATE PARTICIPANT
 }
