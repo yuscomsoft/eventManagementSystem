@@ -1,11 +1,12 @@
 using EventManagment.Application;
+using EventManagment.Application.Common.Gateway;
 using EventManagment.Host.Configurations;
 using EventManagment.Host.Controllers;
 using EventManagment.Infrastructure;
 using EventManagment.Infrastructure.Common;
+using EventManagment.Infrastructure.Gateway.Implementation.Caching;
 using EventManagment.Infrastructure.Logging.Serilog;
 using Serilog;
-using Serilog.Formatting.Compact;
 
 [assembly: ApiConventionType(typeof(FSHApiConventions))]
 
@@ -19,6 +20,9 @@ try
     builder.Services.AddControllers();
     builder.Services.AddInfrastructure(builder.Configuration);
     builder.Services.AddApplication();
+    builder.Services.AddScoped<IGatewayHandler, GatewayHandler>()
+        .AddScoped<ICacheService, CacheService>();
+    builder.Services.AddMemoryCache();
 
     var app = builder.Build();
 

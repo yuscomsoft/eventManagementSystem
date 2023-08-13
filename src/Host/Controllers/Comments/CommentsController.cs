@@ -28,13 +28,13 @@ public class CommentsController : VersionedApiController
             : Ok(await Mediator.Send(request));
     }
 
-    [HttpPost("search")]
-    [MustHavePermission(FSHAction.Search, FSHResource.Comments)]
-    [OpenApiOperation("Search Comments using available filters.", "")]
-    public Task<PaginationResponse<CommentDto>> SearchAsync(SearchAllCommentsByEventRequest request)
-    {
-        return Mediator.Send(request);
-    }
+    //[HttpPost("search")]
+    //[MustHavePermission(FSHAction.Search, FSHResource.Comments)]
+    //[OpenApiOperation("Search Comments using available filters.", "")]
+    //public Task<PaginationResponse<CommentDto>> SearchAsync(SearchAllCommentsByEventRequest request)
+    //{
+    //    return Mediator.Send(request);
+    //}
 
     [HttpDelete("{id:guid}")]
     [MustHavePermission(FSHAction.Delete, FSHResource.Comments)]

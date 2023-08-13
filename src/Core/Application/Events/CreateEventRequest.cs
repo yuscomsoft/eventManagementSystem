@@ -1,8 +1,7 @@
-﻿using EventManagment.Application.Catalog.Products;
+﻿using EventManagment.Application.Auditing;
 using EventManagment.Domain.Common.Events;
 using EventManagment.Domain.Enums;
 using EventManagment.Domain.Events;
-
 
 namespace EventManagment.Application.Events;
 public class CreateEventRequest : IRequest<Guid>
@@ -18,30 +17,34 @@ public class CreateEventRequest : IRequest<Guid>
     public DateTime? RegistrationEndDate { get; set; }
     public DateTime? CheckedInStartDate { get; set; }
     public string DataSource { get; set; }
-    public bool IsActive { get; set; }
-
+    public DateTime? CheckInStartDate { get; set; }
+    public bool IsPrivate { get; set; }
 }
 public class CreateEventRequestHandler : IRequestHandler<CreateEventRequest, Guid>
 {
     private readonly IRepository<Event> _repository;
-    private readonly IRepository<EventSettings> _eventSettingRepository;
     private readonly IFileStorageService _file;
 
-    public CreateEventRequestHandler(IRepository<Event> repository, IRepository<EventSettings> eventSettingRepository, IFileStorageService file) =>
-        (_repository, _file, _eventSettingRepository ) = (repository, file, eventSettingRepository);
+    public CreateEventRequestHandler(IRepository<Event> repository, IFileStorageService file) =>
+        (_repository, _file) = (repository, file);
 
     public async Task<Guid> Handle(CreateEventRequest request, CancellationToken cancellationToken)
     {
         string eventImagePath = await _file.UploadAsync<Event>(request.Image, FileType.Image, cancellationToken);
 
-        var eventt = new Event(request.EventName, request.StartingDate, request.EndingDate, request.EventYear, request.Location, eventImagePath);
-        var settings = eventt.AddEventSettings(eventt, request.EventType, request.RegistrationStartDate, request.RegistrationEndDate, request.CheckedInStartDate, request.DataSource, request.IsActive);
-        // Add Domain Events to be raised after the commit
-        eventt.DomainEvents.Add(EntityCreatedEvent.WithEntity(eventt));
-        eventt.DomainEvents.Add(EntityCreatedEvent.WithEntity(settings));
+        var @event = new Event(request.EventName, request.StartingDate, request.EndingDate, request.EventYear, request.Location, eventImagePath);
 
-        await _repository.AddAsync(eventt, cancellationToken);
-        await _eventSettingRepository.AddAsync(settings, cancellationToken);
-        return eventt.Id;
+        string eventQrCode = @event.Id.ToString();
+        string shortLink = @event.Id.ToString();
+        var settings = @event.AddEventSettings(@event.Id, eventQrCode, shortLink, request.EventType, isRegistrationActive: true, request.RegistrationStartDate, request.RegistrationEndDate, request.CheckInStartDate, request.DataSource, request.IsPrivate);
+
+        @event.EventSettings = settings;
+
+        // Add Domain Events to be raised after the commit
+        @event.DomainEvents.Add(EntityCreatedEvent.WithEntity(@event));
+        @event.DomainEvents.Add(EntityCreatedEvent.WithEntity(settings));
+
+        await _repository.AddAsync(@event, cancellationToken);
+        return @event.Id;
     }
 }
