@@ -25,4 +25,12 @@ public class ParticipantsController : VersionNeutralApiController
     {
         return await Mediator.Send(new GetParticipantByEventIdRequest(eventId, participantId));
     }
+
+    [HttpPost]
+    [MustHavePermission(FSHAction.Create, FSHResource.Participants)]
+    [OpenApiOperation("Register Guest Participant.", "")]
+    public Task<Guid> CreateAsyn(CreateGuestParticipantRequest request)
+    {
+        return Mediator.Send(request);
+    }
 }
