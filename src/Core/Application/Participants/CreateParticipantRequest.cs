@@ -1,3 +1,4 @@
+using EventManagment.Application.Common.WhatsappMessages;
 using EventManagment.Domain.Common.Events;
 using EventManagment.Domain.Events;
 
@@ -15,9 +16,10 @@ public class CreateParticipantRequestHandler : IRequestHandler<CreateParticipant
 {
     private readonly IRepository<Participant> _repository;
     private readonly IFileStorageService _file;
+    private readonly IWhatsappMessage _whatsappMessageService;
 
-    public CreateParticipantRequestHandler(IRepository<Participant> repository, IFileStorageService file) =>
-        (_repository, _file) = (repository, file);
+    public CreateParticipantRequestHandler(IRepository<Participant> repository, IFileStorageService file, IWhatsappMessage whatsappMessageService) =>
+        (_repository, _file, _whatsappMessageService) = (repository, file, whatsappMessageService);
 
     public async Task<Guid> Handle(CreateParticipantRequest request, CancellationToken cancellationToken)
     {
@@ -37,6 +39,12 @@ public class CreateParticipantRequestHandler : IRequestHandler<CreateParticipant
 
         // TODO: GENERATE TAG/TICKET DOWNLOAD LINK TO BE SENT VIA SMS OR EMAIL
         // TODO: SEND AN SMS, WHATSAPP OR EMAIL MESSAGE TO THE REGISTERED PARTICIPANT, CALL AN INOTIFICATION SERVICE TO DO THIS. OR USE A BACKGROUND JOB , ADDING THE REGISTRATION TO A QUEUE
+        var messageRequest = new WhatsappMessageRequest
+        {
+            RecipientNumber = "+2347031905878",
+            MessageBody = "You have successfully Register for Jalsa sala, here is the link to download your ticket <url>"
+        };
+        await _whatsappMessageService.SendAsync(messageRequest);
 
         return participant.Id;
     }
