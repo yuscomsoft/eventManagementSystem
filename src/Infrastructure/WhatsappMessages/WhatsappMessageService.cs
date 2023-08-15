@@ -33,3 +33,36 @@ public class WhatsappMessageService : IWhatsappMessage
         }
     }
 }
+
+
+
+public class WhatsappMessageService1 : IWhatsappMessage
+{
+    private readonly WhatsappMessageSettings _settings;
+    private readonly ILogger<WhatsappMessageService1> _logger;
+
+    public WhatsappMessageService1(IOptions<WhatsappMessageSettings> settings, ILogger<WhatsappMessageService1> logger) =>
+    (_settings, _logger) = (settings.Value, logger);
+
+    public async Task SendAsync(WhatsappMessageRequest request, CancellationToken ct = default)
+    {
+        try
+        {
+            using var httpClient = new HttpClient();
+
+            var content = new FormUrlEncodedContent(new[]
+            {
+            new KeyValuePair<string, string>("token", _settings.Token),
+            new KeyValuePair<string, string>("to", request.RecipientNumber),
+            new KeyValuePair<string, string>("body", request.MessageBody)
+            });
+
+            var response = await httpClient.PostAsync(_settings.ApiUrl, content);
+            var output = await response.Content.ReadAsStringAsync();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, ex.Message);
+        }
+    }
+}

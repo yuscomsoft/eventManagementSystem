@@ -1,4 +1,5 @@
-﻿using EventManagment.Application.Common.Gateway;
+﻿using EventManagment.Application.Common.Exceptions;
+using EventManagment.Application.Common.Gateway;
 using EventManagment.Application.Common.Models;
 using EventManagment.Application.DTOs;
 using EventManagment.Application.Members;
@@ -14,9 +15,11 @@ public class MemberService : IMemberService
         _gateway = gateway;
     }
 
-    public Task<MemberDetailsDto> GetByChandaNumberAsync(string chandaNumber, CancellationToken cancellationToken)
+    public async Task<MemberDto> GetByChandaNumberAsync(string chandaNumber, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var member = await _gateway.GetMemberAsync(chandaNumber);
+        _ = member ?? throw new NotFoundException(string.Format("Member with Chanda Number {0} does not exist.", chandaNumber));
+        return member;
     }
 
     public async Task<PaginationResponse<MemberDetailsDto>> GetListAsync(PaginationFilter filter)
