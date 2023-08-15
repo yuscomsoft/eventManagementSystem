@@ -41,7 +41,7 @@ public class CreateParticipantRequestHandler : IRequestHandler<CreateParticipant
         // TODO: SEND AN SMS, WHATSAPP OR EMAIL MESSAGE TO THE REGISTERED PARTICIPANT, CALL AN INOTIFICATION SERVICE TO DO THIS. OR USE A BACKGROUND JOB , ADDING THE REGISTRATION TO A QUEUE
         var messageRequest = new WhatsappMessageRequest
         {
-            RecipientNumber = "+2347031905878",
+            RecipientNumber = "+2348164671994",
             MessageBody = "You have successfully Register for Jalsa sala, here is the link to download your ticket <url>"
         };
         await _whatsappMessageService.SendAsync(messageRequest);
