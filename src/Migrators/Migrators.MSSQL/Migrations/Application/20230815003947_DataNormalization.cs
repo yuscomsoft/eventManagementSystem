@@ -10,21 +10,22 @@ namespace Migrators.MSSQL.Migrations.Application
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(
+            migrationBuilder.DropColumn(
                 name: "TickectReferenceNumber",
                 schema: "Event",
-                table: "Participants",
-                newName: "RegistrationNumber");
+                table: "Participants");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(
-                name: "RegistrationNumber",
+            migrationBuilder.AddColumn<string>(
+                name: "TickectReferenceNumber",
                 schema: "Event",
                 table: "Participants",
-                newName: "TickectReferenceNumber");
+                type: "nvarchar(max)",
+                nullable: false,
+                defaultValue: "");
         }
     }
 }

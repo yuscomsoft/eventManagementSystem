@@ -76,6 +76,7 @@ public static class FSHPermissions
         new("Update Tenants", FSHAction.Update, FSHResource.Tenants, IsRoot: true),
         new("Upgrade Tenant Subscription", FSHAction.UpgradeSubscription, FSHResource.Tenants, IsRoot: true),
         new("Participants", FSHAction.View, FSHResource.Participants, IsBasic: true),
+        new("Participants", FSHAction.Create, FSHResource.Participants),
         new("View Comments", FSHAction.View, FSHResource.Comments, IsBasic: true),
         new("Search Comments", FSHAction.Search, FSHResource.Comments, IsBasic: true),
         new("Create Comments", FSHAction.Create, FSHResource.Comments),
