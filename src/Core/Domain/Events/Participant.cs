@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EventManagment.Domain.Events;
+﻿namespace EventManagment.Domain.Events;
 public class Participant : AuditableEntity, IAggregateRoot
 {
+
     public Guid EventId { get; set; }
     public string? MemberNumber { get; private set; }
     public string RegistrationNumber { get; private set; } = default!;
@@ -28,4 +22,26 @@ public class Participant : AuditableEntity, IAggregateRoot
     public DateTime? CheckInDate { get; private set; }
 
     // TODO: ADD DOMAIN CONSTRUCTOR TO CREATE PARTICIPANT
+    public Participant(DefaultIdType eventId, string? memberNumber, string registrationNumber, ParticipantType participantType, string firstName, string lastName, string? tiltle, string? email, string? phoneNumber, int? jamaatId, int? circuitId, string gender, string address, string? additionalInformation, string? ticketQrCode, string ticketDownloadLink, bool checkedIn, DateTime? checkInDate)
+    {
+        EventId = eventId;
+        MemberNumber = memberNumber;
+        RegistrationNumber = registrationNumber;
+        ParticipantType = participantType;
+        FirstName = firstName;
+        LastName = lastName;
+        Tiltle = tiltle;
+        Email = email;
+        PhoneNumber = phoneNumber;
+        JamaatId = jamaatId;
+        CircuitId = circuitId;
+        Gender = gender;
+        Address = address;
+        AdditionalInformation = additionalInformation;
+        TicketQrCode = ticketQrCode;
+        TicketDownloadLink = ticketDownloadLink;
+        CheckedIn = checkedIn;
+        CheckInDate = checkInDate;
+    }
+
 }

@@ -10,7 +10,7 @@ public interface IMemberService : ITransientService
 
     //Task<int> GetCountAsync(CancellationToken cancellationToken);
 
-    //Task<MemberDetailsDto> GetAsync(string userId, CancellationToken cancellationToken);
+    Task<MemberDetailsDto> GetByChandaNumberAsync(string chandaNumber, CancellationToken cancellationToken);
 
     /*Task<List<UserRoleDto>> GetRolesAsync(string userId, CancellationToken cancellationToken);
     Task<string> AssignRolesAsync(string userId, UserRolesRequest request, CancellationToken cancellationToken);

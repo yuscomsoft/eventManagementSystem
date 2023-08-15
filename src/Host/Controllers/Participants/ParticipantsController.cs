@@ -1,10 +1,7 @@
-﻿using EventManagment.Application.Catalog.Brands;
-using EventManagment.Application.Catalog.Products;
-using EventManagment.Application.DTOs;
+﻿using EventManagment.Application.DTOs;
 using EventManagment.Application.Participants;
 using EventManagment.Domain.Events;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+using EventManagment.Infrastructure.Common.Models;
 
 namespace EventManagment.Host.Controllers.Participants;
 
@@ -30,7 +27,7 @@ public class ParticipantsController : VersionNeutralApiController
     [HttpPost]
     [MustHavePermission(FSHAction.Create, FSHResource.Participants)]
     [OpenApiOperation("Create a new Participants.", "")]
-    public Task<Guid> CreateAsync(CreateParticipantRequest request)
+    public Task<Result<Guid>> CreateAsync(CreateParticipantRequest request)
     {
         return Mediator.Send(request);
     }
