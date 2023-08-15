@@ -1,7 +1,5 @@
 using EventManagment.Application.DTOs;
 using EventManagment.Application.Members;
-
-
 namespace EventManagment.Host.Controllers.Members;
 public class MembersController : VersionNeutralApiController
 {
