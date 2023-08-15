@@ -5,26 +5,27 @@
 namespace Migrators.MSSQL.Migrations.Application
 {
     /// <inheritdoc />
-    public partial class DataNormalization : Migration
+    public partial class AddRegNumber : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(
-                name: "TickectReferenceNumber",
+            migrationBuilder.AddColumn<string>(
+                name: "RegistrationNumber",
                 schema: "Event",
                 table: "Participants",
-                newName: "RegistrationNumber");
+                type: "nvarchar(max)",
+                nullable: false,
+                defaultValue: "");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(
+            migrationBuilder.DropColumn(
                 name: "RegistrationNumber",
                 schema: "Event",
-                table: "Participants",
-                newName: "TickectReferenceNumber");
+                table: "Participants");
         }
     }
 }

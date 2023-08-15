@@ -15,11 +15,12 @@ public class CreateParticipantRequest : IRequest<Guid>
 public class CreateParticipantRequestHandler : IRequestHandler<CreateParticipantRequest, Guid>
 {
     private readonly IRepository<Participant> _repository;
+    private readonly IRepository<Event> _eventRpository;
     private readonly IFileStorageService _file;
     private readonly IWhatsappMessage _whatsappMessageService;
 
-    public CreateParticipantRequestHandler(IRepository<Participant> repository, IFileStorageService file, IWhatsappMessage whatsappMessageService) =>
-        (_repository, _file, _whatsappMessageService) = (repository, file, whatsappMessageService);
+    public CreateParticipantRequestHandler(IRepository<Participant> repository, IFileStorageService file, IWhatsappMessage whatsappMessageService, IRepository<Event> eventRpository) =>
+        (_repository, _file, _whatsappMessageService, _eventRpository) = (repository, file, whatsappMessageService, eventRpository);
 
     public async Task<Guid> Handle(CreateParticipantRequest request, CancellationToken cancellationToken)
     {
@@ -35,14 +36,18 @@ public class CreateParticipantRequestHandler : IRequestHandler<CreateParticipant
         // Add Domain Events to be raised after the commit
         participant.DomainEvents.Add(EntityCreatedEvent.WithEntity(participant));
 
-        await _repository.AddAsync(participant, cancellationToken);
+        //await _repository.AddAsync(participant, cancellationToken);
 
         // TODO: GENERATE TAG/TICKET DOWNLOAD LINK TO BE SENT VIA SMS OR EMAIL
         // TODO: SEND AN SMS, WHATSAPP OR EMAIL MESSAGE TO THE REGISTERED PARTICIPANT, CALL AN INOTIFICATION SERVICE TO DO THIS. OR USE A BACKGROUND JOB , ADDING THE REGISTRATION TO A QUEUE
+        var @event = await _eventRpository.GetByIdAsync(request.EventId);
+
+        // ADD SHORT LINK TO MESSAGEBODY 
+        // ADD REGISTRATION NUMBER TO MESSAGEBODY 
         var messageRequest = new WhatsappMessageRequest
         {
-            RecipientNumber = "+2348164671994",
-            MessageBody = "You have successfully Register for Jalsa sala, here is the link to download your ticket <url>"
+            RecipientNumber = request.PhoneNumber,
+            MessageBody = $"You have successfully Register for {@event.EventName}, here is the link to download your ticket <url>"
         };
         await _whatsappMessageService.SendAsync(messageRequest);
 
