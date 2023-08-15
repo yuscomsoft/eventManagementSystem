@@ -328,9 +328,6 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.Property<DateTime?>("LastModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("QrCode")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime?>("RegistrationEndDate")
                         .HasColumnType("datetime2");
 
@@ -425,14 +422,14 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("RegistrationNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("TenantId")
                         .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
-
-                    b.Property<string>("TickectReferenceNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TicketDownloadLink")
                         .IsRequired()
@@ -804,11 +801,13 @@ namespace Migrators.MSSQL.Migrations.Application
 
             modelBuilder.Entity("EventManagment.Domain.Events.CommentResponse", b =>
                 {
-                    b.HasOne("EventManagment.Domain.Events.Comment", null)
+                    b.HasOne("EventManagment.Domain.Events.Comment", "Comment")
                         .WithMany("Responses")
                         .HasForeignKey("CommentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Comment");
                 });
 
             modelBuilder.Entity("EventManagment.Domain.Events.EventSettings", b =>

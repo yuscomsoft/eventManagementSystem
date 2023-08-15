@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Migrators.MSSQL.Migrations.Application
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230729230432_init3")]
-    partial class init3
+    [Migration("20230814235400_DataNormalization")]
+    partial class DataNormalization
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -248,9 +248,6 @@ namespace Migrators.MSSQL.Migrations.Application
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<Guid?>("EventSettingsId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("EventYear")
                         .HasColumnType("int");
 
@@ -283,10 +280,6 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.HasIndex("EventName")
                         .IsUnique();
 
-                    b.HasIndex("EventSettingsId")
-                        .IsUnique()
-                        .HasFilter("[EventSettingsId] IS NOT NULL");
-
                     b.ToTable("Events", "Event");
 
                     b.HasAnnotation("Finbuckle:MultiTenant", true);
@@ -317,6 +310,12 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("EventId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("EventQrCode")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("EventType")
                         .HasColumnType("int");
 
@@ -331,9 +330,6 @@ namespace Migrators.MSSQL.Migrations.Application
 
                     b.Property<DateTime?>("LastModifiedOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("QrCode")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("RegistrationEndDate")
                         .HasColumnType("datetime2");
@@ -350,6 +346,9 @@ namespace Migrators.MSSQL.Migrations.Application
                         .HasColumnType("nvarchar(64)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EventId")
+                        .IsUnique();
 
                     b.ToTable("EventSettings", "Event");
 
@@ -396,10 +395,6 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.Property<Guid>("EventId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("EventRegistrationNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -430,10 +425,21 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("RegistrationNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("TenantId")
                         .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
+
+                    b.Property<string>("TicketDownloadLink")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TicketQrCode")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Tiltle")
                         .HasColumnType("nvarchar(max)");
@@ -798,20 +804,24 @@ namespace Migrators.MSSQL.Migrations.Application
 
             modelBuilder.Entity("EventManagment.Domain.Events.CommentResponse", b =>
                 {
-                    b.HasOne("EventManagment.Domain.Events.Comment", null)
+                    b.HasOne("EventManagment.Domain.Events.Comment", "Comment")
                         .WithMany("Responses")
                         .HasForeignKey("CommentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Comment");
                 });
 
-            modelBuilder.Entity("EventManagment.Domain.Events.Event", b =>
+            modelBuilder.Entity("EventManagment.Domain.Events.EventSettings", b =>
                 {
-                    b.HasOne("EventManagment.Domain.Events.EventSettings", "EventSettings")
-                        .WithOne("Event")
-                        .HasForeignKey("EventManagment.Domain.Events.Event", "EventSettingsId");
+                    b.HasOne("EventManagment.Domain.Events.Event", "Event")
+                        .WithOne("EventSettings")
+                        .HasForeignKey("EventManagment.Domain.Events.EventSettings", "EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("EventSettings");
+                    b.Navigation("Event");
                 });
 
             modelBuilder.Entity("EventManagment.Domain.Events.Participant", b =>
@@ -883,13 +893,10 @@ namespace Migrators.MSSQL.Migrations.Application
                 {
                     b.Navigation("Comments");
 
-                    b.Navigation("Participants");
-                });
-
-            modelBuilder.Entity("EventManagment.Domain.Events.EventSettings", b =>
-                {
-                    b.Navigation("Event")
+                    b.Navigation("EventSettings")
                         .IsRequired();
+
+                    b.Navigation("Participants");
                 });
 #pragma warning restore 612, 618
         }
