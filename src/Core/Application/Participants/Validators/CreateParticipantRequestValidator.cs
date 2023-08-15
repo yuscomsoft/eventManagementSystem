@@ -1,6 +1,7 @@
+using EventManagment.Application.Participants.Specifications;
 using EventManagment.Domain.Events;
 
-namespace EventManagment.Application.Participants;
+namespace EventManagment.Application.Participants.Validators;
 
 public class CreateParticipantRequestValidator : CustomValidator<CreateParticipantRequest>
 {

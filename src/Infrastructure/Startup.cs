@@ -17,6 +17,7 @@ using EventManagment.Infrastructure.Persistence;
 using EventManagment.Infrastructure.Persistence.Initialization;
 using EventManagment.Infrastructure.SecurityHeaders;
 using EventManagment.Infrastructure.Validations;
+using EventManagment.Infrastructure.WhatsappMessages;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
@@ -45,6 +46,7 @@ public static class Startup
             .AddHealthCheck()
             .AddPOLocalization(config)
             .AddMailing(config)
+            .AddWhatsappMessages(config)
             .AddMediatR(Assembly.GetExecutingAssembly())
             .AddMultitenancy()
             .AddNotifications(config)
