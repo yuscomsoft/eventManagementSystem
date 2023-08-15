@@ -2,10 +2,10 @@ using EventManagment.Application.Common.WhatsappMessages;
 using EventManagment.Application.DTOs;
 using EventManagment.Application.Members;
 using EventManagment.Application.Participants.Specifications;
-using EventManagment.Application.Utility;
 using EventManagment.Domain.Common.Events;
 using EventManagment.Domain.Events;
 using EventManagment.Infrastructure.Common.Models;
+using EventManagment.Infrastructure.Utility;
 
 namespace EventManagment.Application.Participants;
 
@@ -32,10 +32,7 @@ public class CreateParticipantRequestHandler : IRequestHandler<CreateParticipant
     public async Task<Result<Guid>> Handle(CreateParticipantRequest request, CancellationToken cancellationToken)
     {
         if (request.MemberNumber is null) return await Result<Guid>.FailAsync("membership number can  not be null, register as guest.");
-        //var member = await _memberService.GetByChandaNumberAsync(request.MemberNumber, cancellationToken);
-        var member = new MemberDetailsDto
-        {
-        };
+        var member = await _memberService.GetByChandaNumberAsync(request.MemberNumber, cancellationToken);
         if (member is null) return await Result<Guid>.FailAsync("invalid membership id.");
 
         var @event = await _eventRpository.GetByIdAsync(request.EventId);
@@ -43,9 +40,7 @@ public class CreateParticipantRequestHandler : IRequestHandler<CreateParticipant
         var spec = new ParticipantsByEventIdSpec(request.EventId);
         var participants = await _repository.ListAsync(spec, cancellationToken);
 
-        //var registrationNumber = await TicketGeneratorHelper.GenerateEventTicketAsync(@event, participants);
-        var registrationNumber = await TicketGeneratorHelper.GenerateEventTicketAsync(@event, new List<ParticipantDto> { new ParticipantDto { EventRegistrationNumber = "JA/2023/00001" } });
-
+        var registrationNumber = TicketGeneratorHelper.GenerateEventTicketAsync(@event, participants);
 
         var downloadLink = "dsdjs";
 

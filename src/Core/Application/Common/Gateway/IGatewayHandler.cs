@@ -9,4 +9,6 @@ namespace EventManagment.Application.Common.Gateway;
 public interface IGatewayHandler
 {
     Task<IList<MemberDto>> GetMembersAsync();
+    Task<MemberDto> GetMemberAsync(string memberNo);
+
 }

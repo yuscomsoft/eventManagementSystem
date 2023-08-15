@@ -8,9 +8,9 @@ public static class TicketGeneratorHelper
     /// Generates an event ticket number based on the event and participants.
     /// </summary>
     /// <param name="event">The event details.</param>
-    /// <param name="participants">The list of participants.</param>
+    /// <param name="participants">The list of participants to get the last ticket number.</param>
     /// <returns>The generated event ticket number.</returns>
-    public static async Task<string> GenerateEventTicketAsync(Event @event, List<ParticipantDto> participants)
+    public static string GenerateEventTicketAsync(Event @event, List<ParticipantDto> participants)
     {
         // Check if there are no participants
         if (!participants.Any())
