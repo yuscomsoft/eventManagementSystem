@@ -1,9 +1,7 @@
-﻿using EventManagment.Application.Catalog.Products;
-using EventManagment.Application.DTOs;
+﻿using EventManagment.Application.DTOs;
 using EventManagment.Application.Participants;
 using EventManagment.Domain.Events;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+using EventManagment.Infrastructure.Common.Models;
 
 namespace EventManagment.Host.Controllers.Participants;
 
@@ -24,5 +22,13 @@ public class ParticipantsController : VersionNeutralApiController
     public async Task<ParticipantDto> GetAsync(Guid eventId, Guid participantId)
     {
         return await Mediator.Send(new GetParticipantByEventIdRequest(eventId, participantId));
+    }
+
+    [HttpPost]
+    [MustHavePermission(FSHAction.Create, FSHResource.Participants)]
+    [OpenApiOperation("Create a new Participants.", "")]
+    public Task<Result<Guid>> CreateAsync(CreateParticipantRequest request)
+    {
+        return Mediator.Send(request);
     }
 }

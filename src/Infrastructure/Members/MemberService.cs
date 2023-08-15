@@ -14,6 +14,11 @@ public class MemberService : IMemberService
         _gateway = gateway;
     }
 
+    public Task<MemberDetailsDto> GetByChandaNumberAsync(string chandaNumber, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<PaginationResponse<MemberDetailsDto>> GetListAsync(PaginationFilter filter)
     {
         var membersResponse = await _gateway.GetMembersAsync();

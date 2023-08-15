@@ -1,6 +1,6 @@
 ﻿using EventManagment.Domain.Events;
 
-namespace EventManagment.Application.Participants;
+namespace EventManagment.Application.Participants.Specifications;
 
 public class ParticipantByMemberNumberSpec : Specification<Participant>, ISingleResultSpecification
 {

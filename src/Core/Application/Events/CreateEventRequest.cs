@@ -1,5 +1,4 @@
-﻿using EventManagment.Application.Auditing;
-using EventManagment.Domain.Common.Events;
+﻿using EventManagment.Domain.Common.Events;
 using EventManagment.Domain.Enums;
 using EventManagment.Domain.Events;
 
@@ -8,8 +7,8 @@ public class CreateEventRequest : IRequest<Guid>
 {
     public string EventName { get; set; } = default!;
     public FileUploadRequest? Image { get; set; }
-    public DateTime StartingDate { get; set; } 
-    public DateTime EndingDate { get; set; } 
+    public DateTime StartingDate { get; set; }
+    public DateTime EndingDate { get; set; }
     public int EventYear { get; set; } = default!;
     public string Location { get; set; } = default!;
     public EventType EventType { get; set; } = default!;
@@ -36,6 +35,7 @@ public class CreateEventRequestHandler : IRequestHandler<CreateEventRequest, Gui
 
         string eventQrCode = @event.Id.ToString();
         string shortLink = @event.Id.ToString();
+
         var settings = @event.AddEventSettings(@event.Id, eventQrCode, shortLink, request.EventType, isRegistrationActive: true, request.RegistrationStartDate, request.RegistrationEndDate, request.CheckInStartDate, request.DataSource, request.IsPrivate);
 
         @event.EventSettings = settings;
